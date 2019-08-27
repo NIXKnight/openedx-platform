@@ -20,6 +20,7 @@ import six
 from django.apps import apps
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from lazy import lazy
 from model_utils.models import TimeStampedModel
@@ -128,6 +129,7 @@ class BlockRecordList(object):
         return cls(blocks, course_key)
 
 
+@python_2_unicode_compatible
 class VisibleBlocks(models.Model):
     """
     A django model used to track the state of a set of visible blocks under a
@@ -148,11 +150,11 @@ class VisibleBlocks(models.Model):
     class Meta(object):
         app_label = "grades"
 
-    def __unicode__(self):
+    def __str__(self):
         """
         String representation of this model.
         """
-        return u"VisibleBlocks object - hash:{}, raw json:'{}'".format(self.hashed, self.blocks_json)
+        return "VisibleBlocks object - hash:{}, raw json:'{}'".format(self.hashed, self.blocks_json)
 
     @property
     def blocks(self):
@@ -193,12 +195,13 @@ class VisibleBlocks(models.Model):
                 # another user may have had this block hash created,
                 # even if the user we checked the cache for hasn't yet.
                 model, _ = cls.objects.get_or_create(
-                    hashed=blocks.hash_value, blocks_json=blocks.json_value, course_id=blocks.course_key,
+                    hashed=blocks.hash_value,
+                    blocks_json=blocks.json_value, course_id=blocks.course_key,
                 )
                 cls._update_cache(user_id, blocks.course_key, [model])
         else:
             model, _ = cls.objects.get_or_create(
-                hashed=blocks.hash_value,
+                hashed=blocks.hash_value.decode('utf-8'),
                 defaults={u'blocks_json': blocks.json_value, u'course_id': blocks.course_key},
             )
         return model
@@ -214,7 +217,7 @@ class VisibleBlocks(models.Model):
         created = cls.objects.bulk_create([
             VisibleBlocks(
                 blocks_json=brl.json_value,
-                hashed=brl.hash_value,
+                hashed=brl.hash_value.decode('utf-8'),
                 course_id=course_key,
             )
             for brl in block_record_lists

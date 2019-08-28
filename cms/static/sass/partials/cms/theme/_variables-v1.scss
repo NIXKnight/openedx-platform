@@ -244,6 +244,10 @@ $ui-link-color: $blue-u2 !default;
 $ui-link-color-focus: $blue-s1 !default;
 $link-color: $ui-link-color;
 
+// cms problem checkbox label border color
+// ====================
+$checkbox-border-color: #949494 !default;
+
 // +Specific UI
 // ====================
 $ui-notification-height: ($baseline*10);

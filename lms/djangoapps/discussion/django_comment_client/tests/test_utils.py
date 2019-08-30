@@ -359,6 +359,7 @@ class CategoryMapTestMixin(object):
         Call `get_discussion_category_map`, and verify that it returns
         what is expected.
         """
+
         self.assertEqual(
             utils.get_discussion_category_map(self.course, requesting_user or self.user),
             expected
@@ -1151,38 +1152,41 @@ class ContentGroupCategoryMapTestCase(CategoryMapTestMixin, ContentGroupTestCase
         Verify that the beta user can access the beta and global
         discussion topics.
         """
-        self.assert_category_map_equals(
-            {
-                'subcategories': {
-                    'Week 1': {
-                        'subcategories': {},
-                        'children': [
-                            ('Visible to Beta', 'entry'),
-                            ('Visible to Everyone', 'entry')
-                        ],
-                        'entries': {
-                            'Visible to Beta': {
-                                'sort_key': None,
-                                'is_divided': False,
-                                'id': 'beta_group_discussion'
-                            },
-                            'Visible to Everyone': {
-                                'sort_key': None,
-                                'is_divided': False,
-                                'id': 'global_group_discussion'
-                            }
+
+        expected = {
+            'subcategories': {
+                'Week 1': {
+                    'subcategories': {},
+                    'children': sorted([
+                        ('Visible to Beta', 'entry'),
+                        ('Visible to Everyone', 'entry')
+                    ], reverse=True),
+                    'entries': {
+                        'Visible to Beta': {
+                            'sort_key': None,
+                            'is_divided': False,
+                            'id': 'beta_group_discussion'
+                        },
+                        'Visible to Everyone': {
+                            'sort_key': None,
+                            'is_divided': False,
+                            'id': 'global_group_discussion'
                         }
-                    }
-                },
-                'children': [('General', 'entry'), ('Week 1', 'subcategory')],
-                'entries': {
-                    'General': {
-                        'sort_key': 'General',
-                        'is_divided': False,
-                        'id': 'i4x-org-number-course-run'
                     }
                 }
             },
+            'children': [('General', 'entry'), ('Week 1', 'subcategory')],
+            'entries': {
+                'General': {
+                    'sort_key': 'General',
+                    'is_divided': False,
+                    'id': 'i4x-org-number-course-run'
+                }
+            }
+        }
+
+        self.assert_category_map_equals(
+            expected,
             requesting_user=self.beta_user
         )
 

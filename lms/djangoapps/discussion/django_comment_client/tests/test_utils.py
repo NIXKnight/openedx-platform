@@ -1153,14 +1153,16 @@ class ContentGroupCategoryMapTestCase(CategoryMapTestMixin, ContentGroupTestCase
         discussion topics.
         """
 
+        children = [('Visible to Beta', 'entry'), ('Visible to Everyone', 'entry')]
+
+        if six.PY3:
+            children = [('Visible to Everyone', 'entry'), ('Visible to Beta', 'entry')]
+
         expected = {
             'subcategories': {
                 'Week 1': {
                     'subcategories': {},
-                    'children': sorted([
-                        ('Visible to Beta', 'entry'),
-                        ('Visible to Everyone', 'entry')
-                    ], reverse=True),
+                    'children': children,
                     'entries': {
                         'Visible to Beta': {
                             'sort_key': None,

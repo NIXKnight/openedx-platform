@@ -306,7 +306,10 @@ def _sort_map_entries(category_map, sort_alpha):
         things.append((title, category, TYPE_SUBCATEGORY))
         _sort_map_entries(category_map["subcategories"][title], sort_alpha)
 
-    category_map["children"] = [(x[0], x[2]) for x in sorted(things, key=lambda x: x[1]["sort_key"] is not None)]
+    category_map["children"] = [
+        (x[0], x[2]) for x in sorted(
+            things, key=lambda x: x[1]["sort_key"] if x[1]["sort_key"] is not None else '')
+    ]
 
 
 def get_discussion_category_map(course, user, divided_only_if_explicit=False, exclude_unstarted=True):

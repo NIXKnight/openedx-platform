@@ -195,8 +195,7 @@ class VisibleBlocks(models.Model):
                 # another user may have had this block hash created,
                 # even if the user we checked the cache for hasn't yet.
                 model, _ = cls.objects.get_or_create(
-                    hashed=blocks.hash_value,
-                    blocks_json=blocks.json_value, course_id=blocks.course_key,
+                    hashed=blocks.hash_value, blocks_json=blocks.json_value, course_id=blocks.course_key,
                 )
                 cls._update_cache(user_id, blocks.course_key, [model])
         else:

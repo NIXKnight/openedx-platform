@@ -80,7 +80,7 @@ class BlockRecordList(object):
         supported by adding a label indicated which algorithm was used, e.g.,
         "sha256$j0NDRmSPa5bfid2pAcUXaxCm2Dlh3TwayItZstwyeqQ=".
         """
-        return b64encode(sha1(self.json_value.encode('utf-8')).digest())
+        return b64encode(sha1(self.json_value.encode('utf-8')).digest()).decoded('utf-8')
 
     @lazy
     def json_value(self):

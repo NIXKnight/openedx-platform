@@ -80,7 +80,7 @@ class BlockRecordList(object):
         supported by adding a label indicated which algorithm was used, e.g.,
         "sha256$j0NDRmSPa5bfid2pAcUXaxCm2Dlh3TwayItZstwyeqQ=".
         """
-        return b64encode(sha1(self.json_value.encode('utf-8')).digest()).decoded('utf-8')
+        return b64encode(sha1(self.json_value.encode('utf-8')).digest()).decode('utf-8')
 
     @lazy
     def json_value(self):
@@ -200,7 +200,7 @@ class VisibleBlocks(models.Model):
                 cls._update_cache(user_id, blocks.course_key, [model])
         else:
             model, _ = cls.objects.get_or_create(
-                hashed=blocks.hash_value.decode('utf-8'),
+                hashed=blocks.hash_value,
                 defaults={u'blocks_json': blocks.json_value, u'course_id': blocks.course_key},
             )
         return model

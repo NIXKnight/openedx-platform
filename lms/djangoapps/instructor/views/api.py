@@ -1405,7 +1405,7 @@ def _cohorts_csv_validator(file_storage, file_to_validate):
     Verifies that the expected columns are present in the CSV used to add users to cohorts.
     """
     with file_storage.open(file_to_validate) as f:
-        reader = unicodecsv.reader(UniversalNewlineIterator(f), encoding='utf-8')
+        reader = unicodecsv.reader(f, encoding='utf-8')
         try:
             fieldnames = next(reader)
         except StopIteration:

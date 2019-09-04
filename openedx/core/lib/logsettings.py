@@ -72,10 +72,9 @@ def get_logger_config(log_dir,
             },
             'tracking': {
                 'level': 'DEBUG',
-                'class': 'logging.handlers.SysLogHandler',
-                'address': '/dev/log',
-                'facility': SysLogHandler.LOG_LOCAL1,
+                'class': 'logging.StreamHandler',
                 'formatter': 'raw',
+                'stream': sys.stdout
             },
         },
         'loggers': {
@@ -85,7 +84,7 @@ def get_logger_config(log_dir,
                 'propagate': False,
             },
             '': {
-                'handlers': ['console', 'local'],
+                'handlers': ['console'],
                 'level': 'INFO',
                 'propagate': False
             },

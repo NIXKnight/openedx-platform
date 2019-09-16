@@ -337,7 +337,6 @@ DATA_DIR = path(ENV_TOKENS.get('DATA_DIR', DATA_DIR))
 
 LOGGING = get_logger_config(LOG_DIR,
                             logging_env=ENV_TOKENS['LOGGING_ENV'],
-                            local_loglevel=local_loglevel,
                             service_variant=SERVICE_VARIANT)
 
 COURSE_LISTINGS = ENV_TOKENS.get('COURSE_LISTINGS', {})
